@@ -1,20 +1,21 @@
 version: '3'
 services:
    webapp:
-      image: "heliumdatastage/cloudtop-ohif:develop-v0.0.18"
+      image: "heliumdatastage/cloudtop-ohif:latest"
       volumes:
          - ${DATA_VOLUME}:/data
          - ${USER_VOLUME}:/home/jovyan/pd
-      entrypoint: /init
+      entrypoint: 
+        - "/init"
       environment:
         - NAMESPACE=helium
         - HOSTNAME=helium.planx-pla.net
         - FRAME_ANCESTORS=https://helium.planx-pla.net
-        - VNC_PW="heliumtest"
-        - VNC_HOME="heliumtest"
-        - CLIENT_ID=Gen3TestCredential.apps.googleusercontent.com  
+        - VNC_PW=heliumtes"
+        - USER_NAME=heliumtest
+        - CLIENT_ID=384421289758-frhkfv63tlt880o4cni2ovujomsi5en2.apps.googleusercontent.com  
       ports: 
-        - 8080:8080
+        - "${SERVICE_PORT}:8080"
           #   healthcheck:
           #test: ["CMD", "wget", "-O", "-", "http://localhost:8888/lw-workspace/proxy/"]
           #interval: 1m30s
@@ -23,8 +24,8 @@ services:
       deploy:
         resources:
           limits:
-            cpus: '0.50'
-            memory: 512M
+            cpus: '1.0'
+            memory: 1024M
           reservations:
-            cpus: '0.3'
-            memory: 256M
+            cpus: '1.0'
+            memory: 1024M

@@ -43,6 +43,6 @@
       "type": "dockstore-compose:1.0.0",
       "path": "/hatchery-more-configs/jupyterrenci.yaml",
       "name": "jupyterrenci-tty"
-    },
+    }
   ]
 }
