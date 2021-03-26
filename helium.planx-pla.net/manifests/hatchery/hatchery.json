@@ -33,6 +33,16 @@
       "type": "dockstore-compose:1.0.0",
       "path": "/hatchery-more-configs/wetty.yml",
       "name": "web-tty"
-    }
+    },
+    {
+      "type": "dockstore-compose:1.0.0",
+      "path": "/hatchery-more-configs/dicomviewer.yml",
+      "name": "dicom-tty"
+    },
+    {
+      "type": "dockstore-compose:1.0.0",
+      "path": "/hatchery-more-configs/jupyterrenci.yaml",
+      "name": "jupyterrenci-tty"
+    },
   ]
 }
