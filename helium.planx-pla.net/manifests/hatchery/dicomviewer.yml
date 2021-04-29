@@ -1,26 +1,17 @@
-version: '3'
+version: '3.5'
 services:
    webapp:
       image: "heliumdatastage/cloudtop-ohif:latest"
-      volumes:
-         - ${DATA_VOLUME}:/data
-         - ${USER_VOLUME}:/home/jovyan/pd
-      entrypoint: 
+      network_mode: service:nginx
+      entrypoint:
         - "/init"
       environment:
         - NAMESPACE=helium
         - HOSTNAME=helium.planx-pla.net
         - FRAME_ANCESTORS=https://helium.planx-pla.net
-        - VNC_PW=heliumtes"
+        - VNC_PW=heliumtest
         - USER_NAME=heliumtest
-        - CLIENT_ID=384421289758-frhkfv63tlt880o4cni2ovujomsi5en2.apps.googleusercontent.com  
-      ports: 
-        - "${SERVICE_PORT}:8080"
-          #   healthcheck:
-          #test: ["CMD", "wget", "-O", "-", "http://localhost:8888/lw-workspace/proxy/"]
-          #interval: 1m30s
-          #timeout: 10s
-          #retries: 3
+        - CLIENT_ID=
       deploy:
         resources:
           limits:
@@ -29,3 +20,14 @@ services:
           reservations:
             cpus: '1.0'
             memory: 1024M
+   nginx:
+      image: "quay.io/cdis/ws-nginx-proxy:2021.01"
+      ports:
+        - "${SERVICE_PORT}:7780"
+      environment:
+        - "APP_PORT=8080"
+      healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:7780/_proxy_status"]
+        interval: 1m30s
+        timeout: 10s
+        retries: 3
