@@ -1,7 +1,7 @@
 version: '3.5'
 services:
    webapp:
-      image: "heliumdatastage/cloudtop-ohif:latest"
+      image: "helxplatform/cloudtop-ohif:latest"
       network_mode: service:nginx
       entrypoint:
         - "/init"
@@ -16,10 +16,10 @@ services:
         resources:
           limits:
             cpus: '1.0'
-            memory: 1024M
+            memory: 2048M
           reservations:
             cpus: '1.0'
-            memory: 1024M
+            memory: 2048M
    nginx:
       image: "quay.io/cdis/ws-nginx-proxy:2021.01"
       ports:
