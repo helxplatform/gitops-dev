@@ -18,8 +18,19 @@ services:
       deploy:
         resources:
           limits:
-            cpus: '0.50'
-            memory: 512M
+            cpus: '2'
+            memory: 2048M
           reservations:
-            cpus: '0.3'
-            memory: 256M
+            cpus: '2'
+            memory: 2048M
+   nginx:
+      image: "quay.io/cdis/ws-nginx-proxy:2021.01"
+      ports:
+        - "${SERVICE_PORT}:7780"
+      environment:
+        - "APP_PORT=8888"
+      healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:7780/_proxy_status"]
+        interval: 1m30s
+        timeout: 10s
+        retries: 3
