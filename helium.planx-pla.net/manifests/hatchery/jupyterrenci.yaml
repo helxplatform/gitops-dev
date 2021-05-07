@@ -1,36 +1,32 @@
-version: '2'
+version: '3'
 services:
    webapp:
       image: "heliumdatastage/jupyter-datascience:v0.0.3"
       volumes:
-        - ${DATA_VOLUME}:/data
-        - ${USER_VOLUME}:/home/jovyan/pd
+         - ${DATA_VOLUME}:/data
+         - ${USER_VOLUME}:/home/jovyan/pd
       entrypoint:
-        - /bin/bash
-        - -c
-        - start.sh jupyter lab --LabApp.token="" --NotebookApp.base_url="/lw-workspace/proxy"
+        - "start.sh jupyter lab"
+      command:
+        - "--NotebookApp.base_url=/lw-workspace/proxy"
+        - "--NotebookApp.password=''"
+        - "--NotebookApp.token=''"
       environment:
         - NAMESPACE=helium
         - HOSTNAME=helium.planx-pla.net
         - FRAME_ANCESTORS=https://helium.planx-pla.net
       ports: 
-        - "${SERVICE_PORT}:8888"
-      deploy:
-        resources:
-          limits:
-            cpus: '2'
-            memory: 2048M
-          reservations:
-            cpus: '2'
-            memory: 2048M
-   nginx:
-      image: "quay.io/cdis/ws-nginx-proxy:2021.01"
-      ports:
-        - "${SERVICE_PORT}:7780"
-      environment:
-        - "APP_PORT=8888"
+         - "${SERVICE_PORT}:8888"
       healthcheck:
-        test: ["CMD", "curl", "-f", "http://localhost:7780/_proxy_status"]
+        test: ["CMD", "wget", "-O", "-", "http://localhost:8888/lw-workspace/proxy/"]
         interval: 1m30s
         timeout: 10s
         retries: 3
+      deploy:
+        resources:
+          limits:
+            cpus: '0.50'
+            memory: 512M
+          reservations:
+            cpus: '0.3'
+            memory: 256M
